@@ -1,0 +1,3 @@
+{
+    "productOffers": "CREATE TABLE IF NOT EXISTS ProductOffers(OfferId varchar(255) NOT NULL,ProductId varchar(255),Offer float,StartDate varchar(255),EndDate varchar(255))"
+}

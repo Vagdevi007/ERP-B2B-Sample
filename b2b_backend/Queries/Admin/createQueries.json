@@ -1,0 +1,5 @@
+{
+    "createInvoice" : "CREATE TABLE IF NOT EXISTS Invoice(InvoiceId varchar(255) primary key,InvoiceDate varchar(255),transId varchar(255), OrderId varchar(255), InvoiceUrl varchar(255))",
+
+    "insertInvoice" : "INSERT INTO Invoice(InvoiceId,InvoiceDate,transId, OrderId, InvoiceUrl) VALUES (?, ?, ?, ?, ?)"
+}

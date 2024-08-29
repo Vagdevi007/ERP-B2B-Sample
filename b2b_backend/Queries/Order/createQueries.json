@@ -1,0 +1,10 @@
+{
+    "createOrderTable": "CREATE TABLE IF NOT EXISTS Orders(OrderId varchar(255) primary key, productId varchar(255), customerId varchar(255),orderDate varchar(25), amount float, paymentStatus boolean default false, quantity int, paymentVerification boolean default false, invoiceNo varchar(255),Address1 varchar(300), Address2 varchar(300),State varchar(100), City varchar(100), PinCode varchar(100), dueDate varchar(255))",
+
+    "insertOrderTable": "INSERT INTO Orders(OrderId, productId, customerId, orderDate, amount, paymentStatus , quantity, paymentVerification, invoiceNo, dueDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+
+    "createShipment" : "CREATE TABLE IF NOT EXISTS Shipment(ShipmentId varchar(50) NOT NULL,OrderId varchar(40) NOT NULL,ProductName varchar(40),ShippingAddress varchar(200),ShipmentStatus boolean default false)",
+
+    "insertShipment" : "INSERT INTO Shipment(ShipmentId,OrderId,ProductName,ShippingAddress) VALUES (?, ?, ?, ?)"
+
+}

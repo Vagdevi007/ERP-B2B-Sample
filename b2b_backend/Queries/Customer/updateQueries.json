@@ -1,0 +1,3 @@
+{
+    "updatePassword":"UPDATE Customer SET Password = ? WHERE CustomerId = ?"
+}

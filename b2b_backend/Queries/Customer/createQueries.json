@@ -1,0 +1,7 @@
+{
+    "createUserTable": "CREATE TABLE IF NOT EXISTS Customer(CustomerId varchar(255) NOT NULL PRIMARY KEY, CompanyName varchar(200) NOT NULL, PAN varchar(200) NOT NULL, GSTNo varchar(255) NOT NULL, Email varchar(255), Password varchar(255) default null, MobileNo varchar(50) NOT NULL, TelephoneNo varchar(50) default null, Address1 varchar(300), Address2 varchar(300),State varchar(100), City varchar(100), PinCode varchar(100), DateOfReg varchar(40))",
+    "insertUserTable": "INSERT INTO Customer(CustomerId, CompanyName, PAN, GSTNo, Email, Password, MobileNo, TelephoneNo, Address1, Address2, State,City, PinCode, DateOfReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+
+    "createTransTable": "CREATE TABLE IF NOT EXISTS Transactions(transId varchar(255) primary key, orderId varchar(255), accountNo varchar(255), transactionId varchar(255), dateOfTransaction varchar(255), transactionType varchar(255) default 'credit', invoiceNo varchar(255), Amount float, paymentMode varchar(20), paymentStatus boolean, paymentApprovedDate varchar(255) default null)",
+    "insertTransTable": "INSERT INTO Transactions(transId, orderId, accountNo, transactionId, dateOfTransaction, transactionType, invoiceNo, Amount, paymentMode, paymentStatus, paymentApprovedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+}
