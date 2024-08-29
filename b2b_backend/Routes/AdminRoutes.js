@@ -3,6 +3,7 @@ const router = express.Router();
 const connection = require("../database");
 const paymentVerify = require("../Queries/Admin/updateQueries");
 const shipment = require("../Queries/Order/createQueries");
+const product = require("../Queries/Product/createQueries");
 
 
 router.put('/payVerify/:OrderId', async(req, res) => {
@@ -16,6 +17,31 @@ router.put('/payVerify/:OrderId', async(req, res) => {
 }
 
 });
+
+
+router.post('/addProduct',async(req, res) => {
+    try{
+      await connection.query(product.productTable);
+      const{ProductName, Cost, SubCategory, offer} = req.body;
+
+      const [lastProduct] = await connection.query("SELECT ProductId FROM Product ORDER BY ProductId DESC LIMIT 1");
+      let newProductId = "B2BPID0000";
+      let latestProductId = newProductId
+      if (lastProduct.length > 0) {
+        latestProductId = lastProduct[0].ProductId;
+      }
+      for(const productData of req.body){
+        const currentIdNumber = parseInt(latestProductId.slice(-4));
+        const newIdNumber = currentIdNumber + 1;
+        newProductId = `B2BPID${String(newIdNumber).padStart(4, '0')}`;
+        await connection.query(product.insertProductTable, [newProductId, productData.ProductName, productData.Cost, productData.SubCategory, productData.offer]);
+        latestProductId = newProductId
+    }
+    res.send({message:"Products added Successfully"})
+    } catch(err){
+        console.log(err)
+    }
+})
 
 
 router.get('/getTransaction/:transId', async(req, res) => {

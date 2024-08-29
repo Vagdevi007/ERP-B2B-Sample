@@ -13,7 +13,7 @@ router.post('/customerreg', async (req, res) => {
     try {
         await connection.query(createQueries.createUserTable);
         const { CompanyName, PAN, GSTNo, Email,Password, MobileNo, TelephoneNo, Address1, Address2,State,City, PinCode, DateOfReg } = req.body;
-        const formatDate = DateOfReg ? new Date(DateOfReg).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+        //const formatDate = DateOfReg ? new Date(DateOfReg).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
 
         const [lastCustomer] = await connection.query("SELECT CustomerId FROM Customer ORDER BY CustomerId DESC LIMIT 1");
         let newCustomerId = "B2BCID0001";
@@ -23,8 +23,16 @@ router.post('/customerreg', async (req, res) => {
             const newIdNumber = currentIdNumber + 1;
             newCustomerId = `B2BCID${String(newIdNumber).padStart(4, '0')}`;
         }
+
+        function getCurrentDateWithoutTime() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${day}-${month}-${year}`;
+        }
         await connection.query(createQueries.insertUserTable, [
-            newCustomerId, CompanyName, PAN, GSTNo, Email,Password, MobileNo, TelephoneNo, Address1, Address2, City, State, PinCode, formatDate
+            newCustomerId, CompanyName, PAN, GSTNo, Email,Password, MobileNo, TelephoneNo, Address1, Address2, City, State, PinCode, getCurrentDateWithoutTime()
         ]);
         res.send({ message: "Customer created successfully" });
     } catch (err) {
@@ -240,7 +248,7 @@ router.post('/bookorder/:customerid', async (req, res) => {
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+            return `${day}-${month}-${year}`;
         }
         
 
