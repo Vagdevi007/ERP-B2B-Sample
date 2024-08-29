@@ -174,12 +174,12 @@ router.get('/orders/:id', async (req, res) => {
 // });
 
 
-router.post('/bookorder', async (req, res) => {
+router.post('/bookorder/:customerid', async (req, res) => {
     try {
         const createTableQuery = `
         CREATE TABLE IF NOT EXISTS orderDetails (
             order_id VARCHAR(255) PRIMARY KEY,
-            companyname VARCHAR(255),
+            CustomerId varchar(255),
             phone_no VARCHAR(13),
             address1 VARCHAR(255),
             address2 VARCHAR(255),
@@ -203,12 +203,18 @@ router.post('/bookorder', async (req, res) => {
 
         await connection.query(createTableQuery);
 
+        const customerId = req.params.customerid;
+
         const {
-            companyname, phone_no, address1, address2, city, state, email, landmark, zip_code, gst_no, requested_sample,
+            phone_no, address1, address2, city, state, email, landmark, zip_code, gst_no, requested_sample,
             delivery_status, product_name, product_quantity, product_type, total_amount,payment_verified,invoiceUrl
         } = req.body;
-        console.log(req.body)
-        if (!companyname || !phone_no || !address1 || !address2 || !city || !state || !email || !landmark || !zip_code || !gst_no || typeof requested_sample !== 'boolean' || typeof delivery_status !== 'boolean' || !product_name || !product_quantity || !product_type || !total_amount) {
+
+        const customerIdQuery = "SELECT * FROM Customer WHERE CustomerId = ?";
+        if (customerIdQuery.length === 0) {
+            return res.status(404).send({ error: "Customer not found" });
+        }
+        if (!phone_no || !address1 || !address2 || !city || !state || !email || !landmark || !zip_code || !gst_no || typeof requested_sample !== 'boolean' || typeof delivery_status !== 'boolean' || !product_name || !product_quantity || !product_type || !total_amount) {
             return res.status(400).send({ error: "All fields are required and must be valid." });
         }
 
@@ -224,7 +230,7 @@ router.post('/bookorder', async (req, res) => {
 
         const insertQuery = `
         INSERT INTO orderDetails (
-            order_id, companyname, phone_no, address1, address2, city, state, email, landmark, zip_code, gst_no, requested_sample,date_of_order,
+            order_id, customerId, phone_no, address1, address2, city, state, email, landmark, zip_code, gst_no, requested_sample,date_of_order,
             delivery_status, product_name, product_quantity, product_type, total_amount,payment_verified,invoiceUrl
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?,?)`;
 
@@ -239,7 +245,7 @@ router.post('/bookorder', async (req, res) => {
         
 
         await connection.execute(insertQuery, [
-            newOrderId, companyname, phone_no, address1, address2, city, state, email, landmark, zip_code, gst_no, requested_sample,getCurrentDateWithoutTime(),
+            newOrderId, customerId, phone_no, address1, address2, city, state, email, landmark, zip_code, gst_no, requested_sample,getCurrentDateWithoutTime(),
             delivery_status, product_name, product_quantity, product_type, total_amount,payment_verified,invoiceUrl
         ]);
         //await sendMail(email, companyname, total_amount, product_quantity, product_name, total_amount,product_quantity, invoiceUrl);

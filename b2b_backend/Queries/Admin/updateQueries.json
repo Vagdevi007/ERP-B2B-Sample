@@ -1,3 +1,3 @@
 {
-    "paymentAcceptQuery": "UPDATE Orders SET PaymentVerified = ? WHERE OrderId = ?"
+    "paymentAcceptQuery": "UPDATE orderDetails SET payment_verified = ? WHERE order_id = ?"
 }
