@@ -108,8 +108,8 @@ router.post('/orders', async (req, res) => {
         }
         await connection.query(OrderCreate.insertOrderTable, [
             newOrderId, UserId, formatDate, TotalAmount ,ExpectedDDate, ActualDDate,Address1, Address2, MobileNo, City, State, PinCode
-        ]);
-        res.send({ message: "Order created successfully" });
+        ])
+        
     } catch (err) {
         console.error(err);
         res.status(500).send({ message: "Order creation failed", error: err });
@@ -241,9 +241,12 @@ router.post('/bookorder', async (req, res) => {
         await connection.execute(insertQuery, [
             newOrderId, companyname, phone_no, address1, address2, city, state, email, landmark, zip_code, gst_no, requested_sample,getCurrentDateWithoutTime(),
             delivery_status, product_name, product_quantity, product_type, total_amount,payment_verified,invoiceUrl
-        ]);
+        ])
         //await sendMail(email, companyname, total_amount, product_quantity, product_name, total_amount,product_quantity, invoiceUrl);
-        return res.status(201).send({ message: "Order added to cart." });
+        .then(()=>{connection.query(`CALL updateOrder${newOrderId}`)
+            res.send({ message: "Order created successfully" });
+        })
+        res.status(201).send({ message: "Order added to cart." });
     } catch (error) {
         console.error("Error in cart:", error);
         return res.status(500).send({ error: "Internal server error." });
