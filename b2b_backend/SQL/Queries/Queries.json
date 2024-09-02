@@ -1,0 +1,59 @@
+{
+    "customerQueries": {
+
+        "createCustomerTable" : "CREATE TABLE IF NOT EXISTS Customer(customerId VARCHAR(255) NOT NULL PRIMARY KEY, CompanyName VARCHAR(200) NOT NULL, PAN VARCHAR(200) NOT NULL, gstNo VARCHAR(255) NOT NULL, Email VARCHAR(255), Password VARCHAR(255) DEFAULT NULL, phoneNo VARCHAR(50) NOT NULL, TelephoneNo VARCHAR(50) DEFAULT NULL, address1 VARCHAR(300), address2 VARCHAR(300), landmark VARCHAR(255), city VARCHAR(100), state VARCHAR(100), pinCode VARCHAR(100), DateOfReg VARCHAR(40))",
+        
+        "insertCustomer": "INSERT INTO Customer (CompanyName, PAN, gstNo, Email, Password, phoneNo, TelephoneNo, address1, address2, state, city, landmark, pinCode, DateOfReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    
+        "getCustomerById" : "SELECT * FROM Customer WHERE CustomerId = ?",
+    
+        "getCustomerByPAN" : "SELECT * FROM Customer WHERE PAN = ?",
+    
+        "getCustomerBygstNo" : "SELECT * FROM Customer WHERE gstNo = ?",
+    
+        "updatePassword":"UPDATE Customer SET Password = ? WHERE CustomerId = ?"
+
+    },
+
+    "productQueries" : {
+
+        "createProductTable":"CREATE TABLE IF NOT EXISTS Product(productId varchar(255), productName varchar(255), cost float, subCategory varchar(255), offer varchar(255))",
+        
+        "insertIntoProductTable":"INSERT INTO Product(productName, cost, subCategory, offer) VALUES (?, ?, ?, ?)"
+
+    },
+
+    "orderQueries" : {
+
+    "createOrderTable": "CREATE TABLE IF NOT EXISTS orderDetails (orderId VARCHAR(255) PRIMARY KEY, customerId VARCHAR(255), phoneNo VARCHAR(13), address1 VARCHAR(255),  address2 VARCHAR(255), city VARCHAR(255), state VARCHAR(255), email VARCHAR(255), landmark VARCHAR(255),pinCode VARCHAR(255), gstNo VARCHAR(255), requestedSample BOOLEAN default false, dateOfOrder VARCHAR(25), productId varchar(255),productName VARCHAR(255), productQuantity INT, productType VARCHAR(255),totalAmount DECIMAL(15, 2), invoiceUrl VARCHAR(255) default null,paymentVerified BOOLEAN default false, deliveryStatus BOOLEAN default false, paymentStatus BOOLEAN default false)",
+
+    "insertOrder": "INSERT INTO orderDetails (customerId, gstNo, productId, productName, productQuantity, productType, dateOfOrder, totalAmount, invoiceUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+
+    "getOrderId": "SELECT * FROM orderDetails WHERE orderId = ?",
+
+    "updatePayment": "UPDATE orderDetails SET payment_verified = true WHERE orderId = ?"
+
+    },
+
+    "transactionQueries" : {
+
+        "createTransactionTable" : "CREATE TABLE IF NOT EXISTS Transactions(transId varchar(255) primary key, orderId varchar(255), accountNo varchar(255), transactionId varchar(255), dateOfTransaction varchar(255), transactionType varchar(255) default 'credit', invoiceNo varchar(255), amount varchar(255), paymentMode varchar(255), paymentStatus boolean default true, paymentVerified boolean default false,paymentApprovedDate varchar(255))",
+
+        "getTransactionTable": "SELECT * FROM Transactions WHERE orderId = ?",
+
+        "insertTransactions": "INSERT INTO Transactions (orderId, accountNo, transactionId, dateOfTransaction, transactionType, amount) VALUES (?, ?, ?, ?, ?, ?)"
+
+    },
+
+    "invoiceQueries" : {
+
+        "createInvoiceTable" : "CREATE TABLE IF NOT EXISTS Invoice(invoiceId varchar(255) primary key, invoiceLink varchar(255), invoiceDate varchar(25), orderId varchar(255), transId varchar(255) default null)",
+    
+        "insertInvoiceTable" : "INSERT INTO Invoice( invoiceLink, invoiceDate, orderId, transId) VALUES ( ?, ?, ?, ?)"
+
+    },
+    "shipmentQueries" : {
+        "createShipmentTable" : "CREATE TABLE IF NOT EXISTS Shipment(shipmentId varchar(50) NOT NULL, orderId varchar(40) NOT NULL, productName varchar(40), shippingAddress varchar(200), shipmentStatus boolean default false)"
+    }
+    
+}

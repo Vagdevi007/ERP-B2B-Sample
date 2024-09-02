@@ -1,5 +1,0 @@
-{
-    "getUserId" : "SELECT * FROM Customer WHERE CustomerId = ?",
-    "getUserByPAN" : "SELECT * FROM Customer WHERE PAN = ?",
-    "getUserByGSTNo" : "SELECT * FROM Customer WHERE GSTNo = ?"
-}
