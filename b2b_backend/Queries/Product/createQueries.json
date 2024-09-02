@@ -1,7 +1,0 @@
-{
-    "productTable":"CREATE TABLE IF NOT EXISTS Product( ProductId varchar(255), ProductName varchar(255), Cost float, SubCategory varchar(255), offer varchar(255))",
-
-    "insertProductTable": "INSERT INTO Product(ProductId, ProductName, Cost, SubCategory, offer) VALUES (?, ?, ?, ?, ?)",
-    
-    "productOffers": "CREATE TABLE IF NOT EXISTS ProductOffers(OfferId varchar(255) NOT NULL,ProductId varchar(255),Offer float,StartDate varchar(255),EndDate varchar(255))"
-}

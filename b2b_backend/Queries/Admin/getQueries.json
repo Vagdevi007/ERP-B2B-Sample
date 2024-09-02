@@ -1,3 +1,0 @@
-{
-    "getTransQuery": "SELECT * FROM Transactions WHERE orderId = ?"
-}

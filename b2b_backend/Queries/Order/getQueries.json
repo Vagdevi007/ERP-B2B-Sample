@@ -1,3 +1,0 @@
-{
-    "getOrderId": "SELECT * FROM orderDetails ORDER BY order_id DESC LIMIT 1"
-}
